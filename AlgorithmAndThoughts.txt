@@ -1,0 +1,66 @@
+==================== FROM THE DOCUMENTATION =======================
+Approach
+A suitable way to approach the exercise could be as follows:
+- Create classes for each different kind of chess piece - each class will be responsible for determining
+which moves are valid for itself.
+- Provide an interface through which a ChessBoard class interacts with its pieces.
+You might like to ask yourself the following questions:
+- What information does the ChessBoard class require from each of its pieces to be able to validate the
+moves that are submitted to it?
+- What information does a chess piece need to know in order to determine which moves it can make?
+- What conditions must be checked after each piece has moved?
+If you wish, you may use the C++ Standard Template Library (STL).
+
+========================= AN ALGORITHM ============================
+********************* 0 = white, 1 = black ************************
+----------- ChessBoard -----------
+- ChessBoard needs to know about the current state of the board         ==== currentState (2D array)
+- ChessBoard needs to know the potential state after a potential move   ==== nextState (2D array)
+- ChessBoard makes a move using submitMove, but must be a legal move
+    - if currentState is your king IN check, your nextState must have king NOT IN check
+    - the nextState state must not put your own king in check
+    - the other legalities of the move is determined by the piece class
+- ChessBoard has a createBoard() function that makes a new board with starting positions
+    - use .. for empty squares
+- ChessBoard needs to check that the right player is making the move
+    - some (int moveCounter) variable ++ after a move, then % 2 to determine player turn
+
+----------- Piece -----------
+- Parent class for all pieces, defines all VIRTUAL functions
+    - bool legalMove(); the legalMove function only determines the "Piece specific" legalities
+        - state of board!!!
+        - needs to know what was in the currentPos
+        - the nextPos needs to be empty or an opponent's piece
+    - 
+- Constructor Piece::Piece(array currentState, array nextState)
+
+----------- King -----------
+- Needs to know if it is in check, given a particular board state
+    - bool inCheck(board_state);
+- legalMove();
+    - nextState must not be inCheck();
+    - nextPos must be empty ot an opponent's piece
+    - one square in any direction
+++++ Castling, kingside or queenside ++++ 
+
+----------- Pawn -----------
+- legalMove();
+    - if hasn't moved yet, can move forward 2 spaces (if not blocked)
+    - moves forward one space (if not blocked)
+    - captures diagonally forward one space 
+    // might have to code differently for white and black
+++++ En passant ++++
+    - if a pawn in either left or right "file", hasn't moved yet,
+      is 2 "ranks" in front, and chooses to move 2 spaces:
+    - it can be captured by moving diagonally and removing the pawn
+
+----------- Knight -----------
+- legalMove();
+    - moves in an L (create another function that determines from)
+    - nextPos needs to be empty or an opponent's piece
+
+
+
+
+//// Notes ////
+Should legalMove have parameters (currentPos, nextPos)? OBVIOUSLY HAHAHAHA WHY IS THIS A QUESTION
