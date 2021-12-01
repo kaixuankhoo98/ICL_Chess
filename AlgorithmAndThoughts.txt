@@ -59,8 +59,17 @@ If you wish, you may use the C++ Standard Template Library (STL).
     - moves in an L (create another function that determines from)
     - nextPos needs to be empty or an opponent's piece
 
+----------- Rook -----------
+- legalMove();
+    - moves anywhere along rank or file up until it is blocked
+    - captures by moving into a space occupied by opponent's piece
+    - 
 
+----------- Bishop -----------
+
+----------- Queen -----------
 
 
 //// Notes ////
 Should legalMove have parameters (currentPos, nextPos)? OBVIOUSLY HAHAHAHA WHY IS THIS A QUESTION
+Should I have a different "capture" function and "move" function? So I can use capture in the king check

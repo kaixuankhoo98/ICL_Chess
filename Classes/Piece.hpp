@@ -1,13 +1,35 @@
 #ifndef PIECE_H
 #define PIECE_H
-#include "functions.hpp"
+
+#include <string>
 
 class Piece {
-
+    std::string currentPos;
+    std::string pieceName;
+    int color; // 0 for white, 1 for black
+    std::string type = "GARBARGE";
+    
 public:
-    Piece(int color, int type);
+    // Getter functions
+    int getColor() const;
+    std::string getName() const;
+    std::string getPos() const;
+
+    // Construction-related
+    Piece(std::string name, std::string position);
+    Piece(Piece const& copyPiece);
+    Piece& operator=(Piece const& copyPiece);
 };
 // derived classes for each piece
-// somehow keep track of is it black or white (in construction, with 0 for white and 1 for black as a parameter)
+
+// =============== KING =================
+class King : public Piece {
+private:
+    std::string type = "King";
+
+public:
+    bool legalMove(std::string nextPos);
+
+};
 
 #endif
