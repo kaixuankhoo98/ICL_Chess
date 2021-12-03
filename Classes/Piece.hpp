@@ -3,33 +3,23 @@
 
 #include <string>
 
+// =========== Abstract Class btw =========
 class Piece {
-    std::string currentPos;
-    std::string pieceName;
-    int color; // 0 for white, 1 for black
-    std::string type = "GARBARGE";
-    
+    std::string name;
+    std::string position;
+    int color; 
+
 public:
+    Piece(std::string name, std::string position); // construct using name
+    Piece(std::string position, int color); // name uninitialized for derived classes to edit
+
     // Getter functions
-    int getColor() const;
     std::string getName() const;
     std::string getPos() const;
+    int getColor() const;
 
-    // Construction-related
-    Piece(std::string name, std::string position);
-    Piece(Piece const& copyPiece);
-    Piece& operator=(Piece const& copyPiece);
-};
-// derived classes for each piece
-
-// =============== KING =================
-class King : public Piece {
-private:
-    std::string type = "King";
-
-public:
-    bool legalMove(std::string nextPos);
-
+    // Setter functions
+    void setName(std::string setName);
 };
 
 #endif

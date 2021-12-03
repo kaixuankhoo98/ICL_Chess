@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-	ChessBoard cb(69);
+	ChessBoard cb;
 
 	// -------------------------------------------
 	// cout << "========================\n";

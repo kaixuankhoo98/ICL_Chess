@@ -1,8 +1,9 @@
-#include "Piece.hpp"
-#include "../functions.hpp"
+#include "King.hpp"
+#include <iostream>
 using namespace std;
 
-bool King::legalMove() {
-    
-    return true;
+// ================ Construction ==============
+King::King(string position, int color) : Piece(position, color) {
+    if (color == 0) setName("wK");
+    if (color == 1) setName("bK");
 }

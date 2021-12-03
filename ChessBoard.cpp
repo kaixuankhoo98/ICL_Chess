@@ -1,25 +1,51 @@
 #include "ChessBoard.h"
-#include "functions.hpp"
-
+#include "Classes/Piece.hpp"
+#include "Classes/EmptyPiece.hpp"
+#include "Classes/King.hpp"
+#include <iostream>
 using namespace std;
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ============================== CREATE AND EDIT BOARD =================================
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Constructor
 ChessBoard::ChessBoard() {
-    cout << "A new chess game is started!" << endl;
-    createBoard("StartBoard.cb", currentBoard);
-    printBoard(currentBoard); // can be commented out if you don't want to display
+    cout << "New chess game started!" << endl;
 
-    currentState = new Position("StartBoard.cb");
-    // cout << currentState->getBoard(7,4)->getName() << endl; // should print out white king
+    // boardState[0][0] = new EmptyPiece("A8");
+    // cout << boardState[0][0]->getColor() << endl;
+    // ----------- Create a board --------------
+    for (int rank = 0; rank < 2; rank++) { // black kings !
+        for (int file = 0; file < 8; file++) {
+            string position = stringPosition(file, rank);
+            boardState[rank][file] = new King(position, 1);
+        }
+    }
+    for (int rank = 2; rank < 8; rank++) { // empty spaces
+        for (int file = 0; file < 8; file++) {
+            string position = stringPosition(file, rank);
+            boardState[rank][file] = new EmptyPiece(position);
+        }
+    }
+    for (int rank = 6; rank < 8; rank++) { // white kings !
+        for (int file = 0; file < 8; file++) {
+            string position = stringPosition(file, rank);
+            boardState[rank][file] = new King(position, 0);
+        }
+    }
+
+    printBoard(boardState); // prints board
 }
-ChessBoard::ChessBoard(int i) {
-    cout << "A new chess game is started!" << endl;
-    createBoard("TestBoard.cb", currentBoard);
-    printBoard(currentBoard); // can be commented out if you don't want to display
 
-    currentState = new Position("TestBoard.cb");
-    cout << currentState->getBoard(7,4)->getName() << endl; // should print out white king
+// =============== Getter functions ===============
+void ChessBoard::printBoard(Piece* board[8][8]) {
+    cout << "  +=======================+" << endl;
+
+    for (int rank = 0; rank < 8; rank++) {
+        cout << 8-rank << " ‖";
+        for (int file = 0; file < 7; file++) {
+            cout << board[rank][file]->getName() << "|";
+        }
+        cout << board[rank][7]->getName() << "‖";
+        cout << "\n";
+        // cout << "------------------------\n";
+    }
+    cout << "  +=======================+" << endl;
+    cout << "   A  B  C  D  E  F  G  H  " << endl << endl;
 }
