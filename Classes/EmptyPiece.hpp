@@ -5,7 +5,11 @@
 class EmptyPiece : public Piece {
 
 public:
-    EmptyPiece(std::string position); // using base class constructor 
+    // Constructor
+    EmptyPiece(std::string position); // using base class constructor
+
+    // Override
+    bool legalMove(std::string newPosition); // always false for empty piece!
 };
 
 #endif

@@ -20,6 +20,7 @@ public:
 
     // Setter functions
     void setName(std::string setName);
+    virtual bool legalMove(std::string newPosition) = 0;
 };
 
 #endif
