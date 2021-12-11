@@ -5,8 +5,14 @@ using namespace std;
 
 // ================ Construction ==============
 Rook::Rook(string position, int color) : Piece(position, color) {
-    if (color == 0) setName("wR");
-    if (color == 1) setName("bR");
+    if (color == 0) {
+        setName("wR");
+        setLongName("White's Rook");
+    }
+    if (color == 1) {
+        setName("bR");
+        setLongName("Black's Rook");
+    }
 }
 
 bool Rook::legalMove(std::string newPosition) {
@@ -16,6 +22,11 @@ bool Rook::legalMove(std::string newPosition) {
     // int oldFile = stringToFile(this->getPos());
 
     // implement rules
+
+    return true;
+}
+
+bool Rook::legalCapture(std::string newPosition) {
 
     return true;
 }

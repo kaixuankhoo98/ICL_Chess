@@ -5,8 +5,14 @@ using namespace std;
 
 // ================ Construction ==============
 Bishop::Bishop(string position, int color) : Piece(position, color) {
-    if (color == 0) setName("wB");
-    if (color == 1) setName("bB");
+    if (color == 0) {
+        setName("wB");
+        setLongName("White's Bishop");
+    }
+    if (color == 1) {
+        setName("bB");
+        setLongName("Black's Bishop");
+    }
 }
 
 bool Bishop::legalMove(std::string newPosition) {
@@ -16,6 +22,11 @@ bool Bishop::legalMove(std::string newPosition) {
     // int oldFile = stringToFile(this->getPos());
 
     // implement rules
+
+    return true;
+}
+
+bool Bishop::legalCapture(std::string newPosition) {
 
     return true;
 }

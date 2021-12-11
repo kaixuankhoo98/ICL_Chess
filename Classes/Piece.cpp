@@ -15,7 +15,7 @@ Piece::Piece(string name, string position) : name(name), position(position) {
         exit(INVALID_COLOR_IN_BOARD);
     }
 } 
-// using color (uninitialized name)
+// using color (uninitialized name, needs to be set by the derived class)
 Piece::Piece(string position, int color) : position(position), color(color) {}
 
 // ========= Getter =============
@@ -28,8 +28,17 @@ string Piece::getPos() const {
 int Piece::getColor() const {
     return color;
 }
+std::string Piece::getLongName() const {
+    return longName;
+}
 
 // ========= Setter =============
 void Piece::setName(string setName) {
     name = setName;
+}
+void Piece::setPos(string setPosition) {
+    position = setPosition;
+}
+void Piece::setLongName(std::string setName) {
+    longName = setName;
 }

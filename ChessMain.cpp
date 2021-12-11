@@ -8,6 +8,16 @@ using namespace std;
 
 int main() {
 	ChessBoard cb;
+	// cb.submitMove("D2", "D4");
+	// cb.submitMove("E8", "E7");
+	cb.submitMove("E2", "E4"); 
+	cb.submitMove("D7", "D5");
+	cb.submitMove("E4", "F5");
+	// cb.submitMove("E7", "E6");
+	// cb.submitMove("E6", "E5");
+	// cb.submitMove("D7", "D5");
+	// // cb.submitMove("E1", "E3"); // illegal move but correct name called
+	
 
 	// -------------------------------------------
 	// cout << "========================\n";
