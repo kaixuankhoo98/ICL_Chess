@@ -16,14 +16,23 @@ Knight::Knight(string position, int color) : Piece(position, color) {
 }
 
 bool Knight::legalMove(std::string newPosition) {
-    // int newRank = stringToRank(newPosition);
-    // int newFile = stringToFile(newPosition);
-    // int oldRank = stringToRank(this->getPos());
-    // int oldFile = stringToFile(this->getPos());
+    int newRank = stringToRank(newPosition);
+    int newFile = stringToFile(newPosition);
+    int oldRank = stringToRank(this->getPos());
+    int oldFile = stringToFile(this->getPos());
 
-    // implement rules
+    if (newRank == oldRank+1 || newRank == oldRank-1) {
+        if (newFile == oldFile+2 || newFile == oldFile-2) {
+            return true;
+        }
+    }
+    if (newRank == oldRank+2 || newRank == oldRank-2) {
+        if (newFile == oldFile+1 || newFile == oldFile-1) {
+            return true;
+        }
+    }
 
-    return true;
+    return false;
 }
 
 bool Knight::legalCapture(std::string newPosition) {
