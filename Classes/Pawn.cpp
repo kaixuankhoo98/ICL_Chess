@@ -16,6 +16,9 @@ Pawn::Pawn(string position, int color) : Piece(position, color) {
 }
 
 bool Pawn::legalMove(std::string newPosition) {
+    if (getPos() == newPosition) {
+        return false;
+    }
     int newRank = stringToRank(newPosition);
     int newFile = stringToFile(newPosition);
     int oldRank = stringToRank(this->getPos());
@@ -53,21 +56,21 @@ bool Pawn::legalCapture(std::string newPosition) {
     int oldRank = stringToRank(this->getPos());
     int oldFile = stringToFile(this->getPos());
 
-    if (newFile != oldFile+1 && newFile != oldFile-1) { // if not in the adjacent columns
-        return false;
-    }
-    // ===== White Pawns =====
-    if (getColor() == 0) {
-        if (newRank == oldRank-1) {
-            return true;
+    if (newFile == oldFile+1 || newFile == oldFile-1) { // if not in the adjacent columns
+        // ===== White Pawns =====
+        if (getColor() == 0) {
+            if (newRank == oldRank-1) {
+                return true;
+            }
+        }
+        // ===== Black Pawns =====
+        if (getColor() == 1) {
+            if (newRank == oldRank+1) {
+                return true;
+            }
         }
     }
-    // ===== Black Pawns =====
-    if (getColor() == 1) {
-        if (newRank == oldRank+1) {
-            return true;
-        }
-    }
+    
 
     return false;
 }

@@ -16,17 +16,21 @@ Rook::Rook(string position, int color) : Piece(position, color) {
 }
 
 bool Rook::legalMove(std::string newPosition) {
-    // int newRank = stringToRank(newPosition);
-    // int newFile = stringToFile(newPosition);
-    // int oldRank = stringToRank(this->getPos());
-    // int oldFile = stringToFile(this->getPos());
+    int newRank = stringToRank(newPosition);
+    int newFile = stringToFile(newPosition);
+    int oldRank = stringToRank(this->getPos());
+    int oldFile = stringToFile(this->getPos());
 
-    // implement rules
+    if (newRank == oldRank) {
+        return true;
+    }
+    if (newFile == oldFile) {
+        return true;
+    }
 
-    return true;
+    return false;
 }
 
 bool Rook::legalCapture(std::string newPosition) {
-
-    return true;
+    return legalMove(newPosition);
 }

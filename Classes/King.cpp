@@ -27,28 +27,10 @@ bool King::legalMove(std::string newPosition) {
     if (newFile>oldFile+1 || newFile<oldFile-1) {
         return false;
     } // if 2 or more files away
-    if (newRank==oldRank && newFile==oldFile) {
-        return false;
-    } // if trying to move to the same square
 
     return true;
 }
 
 bool King::legalCapture(std::string newPosition) {
-    int newRank = stringToRank(newPosition);
-    int newFile = stringToFile(newPosition);
-    int oldRank = stringToRank(this->getPos());
-    int oldFile = stringToFile(this->getPos());
-
-    if (newRank>oldRank+1 || newRank<oldRank-1) {
-        return false;
-    } // if 2 or more ranks away
-    if (newFile>oldFile+1 || newFile<oldFile-1) {
-        return false;
-    } // if 2 or more files away
-    if (newRank==oldRank && newFile==oldFile) {
-        return false;
-    } // if trying to move to the same square
-
-    return true;
+    return legalMove(newPosition);
 }

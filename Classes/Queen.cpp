@@ -16,17 +16,26 @@ Queen::Queen(string position, int color) : Piece(position, color) {
 }
 
 bool Queen::legalMove(std::string newPosition) {
-    // int newRank = stringToRank(newPosition);
-    // int newFile = stringToFile(newPosition);
-    // int oldRank = stringToRank(this->getPos());
-    // int oldFile = stringToFile(this->getPos());
+    int newRank = stringToRank(newPosition);
+    int newFile = stringToFile(newPosition);
+    int oldRank = stringToRank(this->getPos());
+    int oldFile = stringToFile(this->getPos());
 
-    // implement rules
+    // Rook-like behavior
+    if (newRank == oldRank || newFile == oldFile) {
+        return true;
+    } else {
+        // Bishop-like behavior
+        int diffRank = newRank - oldRank; // difference between ranks
+        int diffFile = newFile - oldFile; // difference between files
+        if (abs(diffRank) == abs(diffFile)) {
+            return true;
+        }
+    }
 
-    return true;
+    return false;
 }
 
 bool Queen::legalCapture(std::string newPosition) {
-
-    return true;
+    return legalMove(newPosition);
 }

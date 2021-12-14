@@ -36,6 +36,5 @@ bool Knight::legalMove(std::string newPosition) {
 }
 
 bool Knight::legalCapture(std::string newPosition) {
-
-    return true;
+    return legalMove(newPosition);
 }
