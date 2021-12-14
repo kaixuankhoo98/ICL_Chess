@@ -54,8 +54,8 @@ ChessBoard::ChessBoard() {
     boardState[7][6] = new Knight("G1", 0);
     boardState[7][7] = new Rook("H1", 0);
 
-    printBoard(boardState); // prints board
-    sleep(1); // delete later
+    // printBoard(boardState); // prints board
+    // sleep(1); // delete later
     // cout << getKingPos(0) << endl;
 }
 
@@ -71,6 +71,24 @@ void ChessBoard::printBoard(Piece* board[8][8]) {
             cout << board[rank][file]->getName() << "|";
         }
         cout << board[rank][7]->getName() << "‖";
+        if (rank == 1) {
+            cout << "\t\tWhite Graveyard";
+        }
+        if (rank == 2) {
+            cout << "\t\t";
+            for (string i: whiteGraveyard) {
+                cout << i << " ";
+            }
+        }
+        if (rank == 5) {
+            cout << "\t\tBlack Graveyard";
+        }
+        if (rank == 6) {
+            cout << "\t\t";
+            for (string i: blackGraveyard) {
+                cout << i << " ";
+            }
+        }
         cout << "\n";
         // cout << "------------------------\n";
     }
@@ -382,7 +400,14 @@ int ChessBoard::writeNextBoardForNoMoves(string origin, string destination) {
     }
 } 
 
-void ChessBoard::pushNextBoard() {
+void ChessBoard::pushNextBoard(string destination) {
+    Piece* pieceCaptured = getPiece(destination, boardState);
+    if (pieceCaptured->getColor() == 0) {
+        whiteGraveyard.push_back(pieceCaptured->getName());
+    }
+    if (pieceCaptured->getColor() == 1) {
+        blackGraveyard.push_back(pieceCaptured->getName());
+    }
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
             delete boardState[rank][file];
@@ -433,8 +458,8 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
             cout << turn << " cannot put their own King in check!" << endl;
             return;
         } else {
-            pushNextBoard(); // submit the nextBoard to the boardState. this is where moveCounter++
-            // printBoard(boardState); 
+            pushNextBoard(destination); // submit the nextBoard to the boardState. this is where moveCounter++
+            //printBoard(boardState); 
         }
     }
 
@@ -455,9 +480,8 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
         cout << turn << " is in check!" << endl;
     }
     
-    
     // coutMove(origin, destination); cout << endl;
-    sleep(1); // delete later
+    // sleep(1); // delete later
 }
 void ChessBoard::resetBoard() {
     // clear data
@@ -470,8 +494,6 @@ void ChessBoard::resetBoard() {
     // reassign fresh board
     cout << "New chess game started!" << endl;
 
-    // boardState[0][0] = new EmptyPiece("A8");
-    // cout << boardState[0][0]->getColor() << endl;
     // ----------- Create a board --------------
     // Black backline
     boardState[0][0] = new Rook("A8", 1);
@@ -507,8 +529,8 @@ void ChessBoard::resetBoard() {
     boardState[7][6] = new Knight("G1", 0);
     boardState[7][7] = new Rook("H1", 0);
 
-    printBoard(boardState); // prints board
-    sleep(1); // delete later
+    // printBoard(boardState);
+    // sleep(1); // delete later
     moveCounter = 0;
 }
 void ChessBoard::cleanNextBoard() {
@@ -523,5 +545,30 @@ void ChessBoard::deleteNextBoard() {
         for (int file = 0; file < 8; file++) {
             delete nextBoard[rank][file];
         }
+    }
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ==================== ACCESSORY FUNCTIONS ========================
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void ChessBoard::playGame() {
+    while (!gameOver) {
+        string origin, destination;
+        string turn;
+        if (moveCounter%2 == 0)
+            turn = "White";
+        if (moveCounter%2 == 1)
+            turn = "Black";
+        printBoard(boardState);
+        cout << turn << "'s turn to move: ";
+        cin >> origin >> destination;
+        
+        // defensive programming
+        while (origin.length()!=2 || destination.length()!=2) {
+            cout << "Please enter 2 character inputs only (e.g. D2 D3)" << endl;
+            cout << turn << "'s turn to move: ";
+            cin >> origin >> destination;
+        }
+        submitMove(origin, destination);
     }
 }
