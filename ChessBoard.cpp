@@ -432,6 +432,11 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
         turn = "White";
     if (moveCounter%2 == 1)
         turn = "Black";
+    string oppturn;
+    if (moveCounter%2 == 1)
+        oppturn = "White";
+    if (moveCounter%2 == 0)
+        oppturn = "Black";
     // int turnCounter = moveCounter % 2;
     
     // ===== Sorting the right output depending on the parameters given. =====
@@ -466,7 +471,7 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
     if (noMovesForColor((moveCounter+2)%2) == true) {
         // Checkmate
         if (kingInCheck((moveCounter+2)%2, boardState) == true) {
-            cout << "Checkmate! " << endl;
+            cout << oppturn << " is in checkmate" << endl;
             gameOver = true;
         } else {
             cout << "Stalemate!" << endl;
@@ -476,8 +481,7 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
     }
     // If you're putting opponent in check after your move
     if (kingInCheck((moveCounter+2)%2, boardState) == true) { // +2 mod 2 in case its 0
-        string oppturn;
-        cout << turn << " is in check!" << endl;
+        cout << oppturn << " is in check" << endl;
     }
     
     // coutMove(origin, destination); cout << endl;
