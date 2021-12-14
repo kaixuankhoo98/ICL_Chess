@@ -8,6 +8,7 @@ public:
     // Construction
     Rook(std::string position, int color); // using base class constructor 
     ~Rook() override {};
+    Rook* clone();
     
     // Functions
     bool legalMove(std::string newPosition);

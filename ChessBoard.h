@@ -36,13 +36,33 @@ public:
     void movePiece(std::string origin, std::string destination, int number); // number=0 for moving to empty, n=1 for capturing.
     int writeNextBoard(std::string origin, std::string destination); // similar to git add :D
     int writeNextBoardForNoMoves(std::string origin, std::string destination);
-    // writeNextBoard may have to be a bool, so that I can return if there is a piece in the way.
     void pushNextBoard(); // similar to git push :D
     void submitMove(std::string origin, std::string destination); // as determined by spec
     void resetBoard();
-    void cleanNextBoard(); // sets next to current
+    void cleanNextBoard(); // Creates deep copies of boardState to nextBoard.
+    void deleteNextBoard();
     
-    // Piece* getPiece();
+    // ============ ACCESSORY FUNCTIONS ==========
+    /* PrintBoard Function: something i put a lot of time into!
+        So the printBoard function is something I implemented for readability on my part, so I could visualize the board. 
+        Example output includes:
+                  +=======================+
+                8 ‖bR|bN|bB|bQ|bK|bB|bN|bR‖
+                7 ‖bP|bP|bP|bP|bP|bP|bP|bP‖
+                6 ‖..|..|..|..|..|..|..|..‖
+                5 ‖..|..|..|..|..|..|..|..‖
+                4 ‖..|..|..|..|..|..|..|..‖
+                3 ‖..|..|..|..|..|..|..|..‖
+                2 ‖wP|wP|wP|wP|wP|wP|wP|wP‖
+                1 ‖wR|wN|wB|wQ|wK|wB|wN|wR‖
+                  +=======================+
+                   A  B  C  D  E  F  G  H 
+        
+        And a graveyard (e.g. final position of the spec moves):
+
+         */
+    // Here I have the playGame function that allows 2 users to take turns inserting moves!
+    void playGame();
 };
 
 #endif

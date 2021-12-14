@@ -14,6 +14,7 @@ public:
     Piece(std::string name, std::string position); // construct using name
     Piece(std::string position, int color); // name uninitialized for derived classes to edit
     virtual ~Piece(){}; // virtual destructor
+    virtual Piece* clone() = 0;
 
     // Getter functions
     std::string getName() const;

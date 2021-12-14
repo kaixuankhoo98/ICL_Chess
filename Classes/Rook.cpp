@@ -14,6 +14,9 @@ Rook::Rook(string position, int color) : Piece(position, color) {
         setLongName("Black's Rook");
     }
 }
+Rook* Rook::clone() {
+    return new Rook (*this);
+}
 
 bool Rook::legalMove(std::string newPosition) {
     int newRank = stringToRank(newPosition);

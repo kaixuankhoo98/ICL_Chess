@@ -6,6 +6,7 @@ class Knight : public Piece {
 
 public:
     Knight(std::string position, int color); // using base class constructor 
+    Knight* clone();
     ~Knight() override {};
 
     // Functions

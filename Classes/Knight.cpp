@@ -14,6 +14,10 @@ Knight::Knight(string position, int color) : Piece(position, color) {
         setLongName("Black's Knight");
     }
 }
+Knight* Knight::clone() {
+    // cout << "copied knight" << endl;
+    return new Knight (*this);
+}
 
 bool Knight::legalMove(std::string newPosition) {
     int newRank = stringToRank(newPosition);

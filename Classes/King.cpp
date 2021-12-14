@@ -14,6 +14,9 @@ King::King(string position, int color) : Piece(position, color) {
         setLongName("Black's King");
     }
 }
+King* King::clone() {
+    return new King (*this);
+}
 
 bool King::legalMove(std::string newPosition) {
     int newRank = stringToRank(newPosition);

@@ -14,6 +14,9 @@ Queen::Queen(string position, int color) : Piece(position, color) {
         setLongName("Black's Queen");
     }
 }
+Queen* Queen::clone() {
+    return new Queen (*this);
+}
 
 bool Queen::legalMove(std::string newPosition) {
     int newRank = stringToRank(newPosition);

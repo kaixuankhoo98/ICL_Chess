@@ -7,30 +7,11 @@
 using namespace std;
 
 int main() {
-	ChessBoard cb;
-
-	// cb.submitMove("F1", "C4");
-	// cb.submitMove("E2", "E3");
-	// cb.submitMove("E7", "E6");
-	// cb.submitMove("D1", "F3");
-	// cb.submitMove("G8", "H6");
-	// cb.submitMove("F3", "F7");
-	// cb.submitMove("E8", "E7");
-
-	// cb.submitMove("F3", "D4");
-	// cb.submitMove("C6", "D4");
-
-	// cb.submitMove("E2", "E4"); 
-	// cb.submitMove("D7", "D5");
-	// cb.submitMove("D2", "D4");
-	// cb.submitMove("G8", "F5");
-
-	// -------------------------------------------
 	cout << "========================\n";
 	cout << "Testing the Chess Engine\n";
 	cout << "========================\n\n";
 
-	// ChessBoard cb;
+	ChessBoard cb;
 	cout << '\n';
 
 	cb.submitMove("D7", "D6");

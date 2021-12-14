@@ -14,6 +14,9 @@ Pawn::Pawn(string position, int color) : Piece(position, color) {
         setLongName("Black's Pawn");
     }
 }
+Pawn* Pawn::clone() {
+    return new Pawn (*this);
+}
 
 bool Pawn::legalMove(std::string newPosition) {
     if (getPos() == newPosition) {

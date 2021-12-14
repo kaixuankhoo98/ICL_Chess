@@ -220,7 +220,7 @@ bool ChessBoard::kingInCheck(int color, Piece* board[8][8]) {
 }
 bool ChessBoard::noMovesForColor(int color) {
     // Copy old board
-    cleanNextBoard();
+
     // string kingPos = getKingPos(color);
     // Go through every piece
     // Write to next board every move
@@ -234,12 +234,9 @@ bool ChessBoard::noMovesForColor(int color) {
                 for (int toRank = 0; toRank < 8; toRank++) {
                     for (int toFile = 0; toFile < 8; toFile++) {
                         // !!!! HERE !!!!
-                        Piece* temp = nextBoard[toRank][toFile];
+                        // cout << "Checked " << stringPosition(file, rank) << " to " << stringPosition(toFile, toRank) << endl;
                         if (writeNextBoardForNoMoves(stringPosition(file, rank), stringPosition(toFile, toRank)) == 0) {
-                            cleanNextBoard();
                             return false;
-                        } else {
-                            cleanNextBoard();
                         }
                     }
                 }
@@ -261,11 +258,7 @@ void ChessBoard::suggestMove(int originRank, int originFile, int destinationRank
     nextBoard[originRank][originFile] = new EmptyPiece(stringPosition(originFile, originRank));
 }
 void ChessBoard::movePiece(string origin, string destination, int number) {
-    for (int rank = 0; rank < 8; rank++) {
-        for (int file = 0; file < 8; file++) {
-            nextBoard[rank][file] = boardState[rank][file];
-        }
-    }
+    cleanNextBoard();
 
     int const originRank = stringToRank(origin);
     int const originFile = stringToFile(origin);
@@ -353,34 +346,34 @@ int ChessBoard::writeNextBoardForNoMoves(string origin, string destination) {
     // =========== Moving to empty space =============
     if (destinationPiece->getName() == "..") { 
         if (originPiece->legalMove(destination) == false) { // if not a legal move for the piece
+            movePiece(origin, destination, 0);
             return 1; // Cannot move there
         } else {
             if (notBlocked(origin, destination) == false) {
+                movePiece(origin, destination, 0);
                 return 1;
             }
         }
         movePiece(origin, destination, 0); // 0 is for moving to empty space
         if (kingInCheck((moveCounter+2)%2, nextBoard) == true) { // +2 mod 2 in case its 0
-            // movePiece(origin, destination, 0);
-            // if (kingInCheck((moveCounter+2)%2, nextBoard) == true) {
-            //     return 1;
-            // }
-            // return 1;
+            return 1;
         }
         return 0;
     } else {
         // =============== For capturing =================
         if (originPiece->getColor() != destinationPiece->getColor()) { // if not same color, proceed
             if (originPiece->legalCapture(destination) == false) { // if not a legal capture move for the piece
+                movePiece(origin, destination, 1);
                 return 1; // Cannot move there
             } else {
                 if (notBlocked(origin, destination) == false) {
+                    movePiece(origin, destination, 1);
                     return 1;
                 }
             }
             movePiece(origin, destination, 1); // 1 is for capturing a piece
             if (kingInCheck((moveCounter+2)%2, nextBoard) == true) { // +2 mod 2 in case its 0
-                // return 1; // ????? 
+                return 1; // ????? 
             }
             return 0;
         } else {
@@ -392,6 +385,7 @@ int ChessBoard::writeNextBoardForNoMoves(string origin, string destination) {
 void ChessBoard::pushNextBoard() {
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
+            delete boardState[rank][file];
             boardState[rank][file] = nextBoard[rank][file];
         }
     }
@@ -409,9 +403,9 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
     Piece* originPiece = getPiece(origin, boardState);
     int writeReturnCode = writeNextBoard(origin, destination);
     string turn;
-    if (originPiece->getColor() == 0)
+    if (moveCounter%2 == 0)
         turn = "White";
-    if (originPiece->getColor() == 1)
+    if (moveCounter%2 == 1)
         turn = "Black";
     // int turnCounter = moveCounter % 2;
     
@@ -440,24 +434,27 @@ void ChessBoard::submitMove(std::string origin, std::string destination) {
             return;
         } else {
             pushNextBoard(); // submit the nextBoard to the boardState. this is where moveCounter++
-            printBoard(boardState); 
+            // printBoard(boardState); 
         }
     }
-    
+
+    if (noMovesForColor((moveCounter+2)%2) == true) {
+        // Checkmate
+        if (kingInCheck((moveCounter+2)%2, boardState) == true) {
+            cout << "Checkmate! " << endl;
+            gameOver = true;
+        } else {
+            cout << "Stalemate!" << endl;
+            gameOver = true;
+        }
+        return;
+    }
     // If you're putting opponent in check after your move
     if (kingInCheck((moveCounter+2)%2, boardState) == true) { // +2 mod 2 in case its 0
         string oppturn;
-        if (originPiece->getColor() == 1)
-            oppturn = "White";
-        if (originPiece->getColor() == 0)
-            oppturn = "Black";
-        cout << oppturn << " is in check" << endl;
+        cout << turn << " is in check!" << endl;
     }
-    if (noMovesForColor((moveCounter+2)%2) == true) {
-        // Checkmate
-        cout << "Checkmate! " << endl;
-        // Stalemate
-    }
+    
     
     // coutMove(origin, destination); cout << endl;
     sleep(1); // delete later
@@ -517,7 +514,14 @@ void ChessBoard::resetBoard() {
 void ChessBoard::cleanNextBoard() {
     for (int rank = 0; rank < 8; rank++) {
         for (int file = 0; file < 8; file++) {
-            nextBoard[rank][file] = boardState[rank][file];
+            nextBoard[rank][file] = boardState[rank][file]->clone();
+        }
+    }
+}
+void ChessBoard::deleteNextBoard() {
+    for (int rank = 0; rank < 8; rank++) {
+        for (int file = 0; file < 8; file++) {
+            delete nextBoard[rank][file];
         }
     }
 }

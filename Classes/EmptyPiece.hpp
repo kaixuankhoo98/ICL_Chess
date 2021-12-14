@@ -8,7 +8,7 @@ public:
     // Constructor
     EmptyPiece(std::string position); // using base class constructor
     ~EmptyPiece() override {};
-
+    EmptyPiece* clone();
 
     // Override
     bool legalMove(std::string newPosition); // always false for empty piece!

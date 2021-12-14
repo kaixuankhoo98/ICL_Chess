@@ -14,6 +14,9 @@ Bishop::Bishop(string position, int color) : Piece(position, color) {
         setLongName("Black's Bishop");
     }
 }
+Bishop* Bishop::clone() {
+    return new Bishop (*this);
+}
 
 bool Bishop::legalMove(std::string newPosition) {
     int newRank = stringToRank(newPosition);

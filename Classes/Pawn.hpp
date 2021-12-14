@@ -6,6 +6,7 @@ class Pawn : public Piece {
 
 public:
     Pawn(std::string position, int color); // using base class constructor 
+    Pawn* clone();
     ~Pawn() override {};
 
     // Functions

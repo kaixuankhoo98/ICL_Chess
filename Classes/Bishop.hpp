@@ -6,6 +6,7 @@ class Bishop :  public Piece {
 
 public:
     Bishop(std::string position, int color); // using base class constructor 
+    Bishop* clone();
     ~Bishop() override {};
 
 
