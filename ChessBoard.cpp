@@ -15,7 +15,7 @@ using namespace std;
 // ======================== Construction ===========================
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ChessBoard::ChessBoard() {
-    cout << "New chess game started!" << endl;
+    cout << "A new chess game is started!" << endl;
 
     // boardState[0][0] = new EmptyPiece("A8");
     // cout << boardState[0][0]->getColor() << endl;
@@ -496,7 +496,7 @@ void ChessBoard::resetBoard() {
         }
     }
     // reassign fresh board
-    cout << "New chess game started!" << endl;
+    cout << "A new chess game is started!" << endl;
 
     // ----------- Create a board --------------
     // Black backline
