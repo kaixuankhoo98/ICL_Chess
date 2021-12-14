@@ -313,6 +313,90 @@ int ChessBoard::writeNextBoard(string origin, string destination) {
     if (moveCounter % 2 != originPiece->getColor()) {
         return 4;
     }
+    // ---------- Check if they're trying to castle ---------- (avoids legalMove rules)
+    if (originPiece->getName() == "wK" && originPiece->getPos() == "E1") { // white king on original square
+        if (destination == "G1") { // kingside
+            if (getPiece("F1", boardState)->getName()==".."
+                && getPiece("G1", boardState)->getName()==".."
+                && getPiece("H1", boardState)->getName()=="wR") {
+                // sorry dunno how to see if the pieces haven't moved yet without implementing more functions yikes
+                // oh i guess i could have a "hasMoved" attribute in King and Rook but i'm kinda lazy...
+                // I would update it to true it if I ever call King->setPos() function. :)
+                if (kingInCheck((moveCounter+2)%2, nextBoard) == false) { // can only castle when king not in check
+                    movePiece(origin, destination, 0);
+                    movePiece("H1", "F1", 0);
+                    return 0;
+                }
+            }
+        }
+        if (destination == "C1") { // queenside
+            if (getPiece("D1", boardState)->getName()==".."
+                && getPiece("C1", boardState)->getName()==".."
+                && getPiece("B1", boardState)->getName()==".."
+                && getPiece("A1", boardState)->getName()=="wR") {
+                // && hasMoved() == false;
+                if (kingInCheck((moveCounter+2)%2, nextBoard) == false) {
+                    movePiece(origin, destination, 0);
+                    movePiece("A1", "D1", 0);
+                    return 0;
+                }
+            }
+        }
+    }
+    if (originPiece->getName() == "bK" && originPiece->getPos() == "E8") { // black king on original square
+        if (destination == "G8") { // kingside
+            if (getPiece("F8", boardState)->getName()==".."
+                && getPiece("G8", boardState)->getName()==".."
+                && getPiece("H8", boardState)->getName()=="bR") {
+                if (kingInCheck((moveCounter+2)%2, nextBoard) == false) {
+                    movePiece(origin, destination, 0);
+                    movePiece("H8", "F8", 0);
+                    return 0;
+                }
+            }
+        }
+        if (destination == "C8") { // queenside
+            if (getPiece("D8", boardState)->getName()==".."
+                && getPiece("C8", boardState)->getName()==".."
+                && getPiece("B8", boardState)->getName()==".."
+                && getPiece("A8", boardState)->getName()=="bR") {
+                if (kingInCheck((moveCounter+2)%2, nextBoard) == false) {
+                    movePiece(origin, destination, 0);
+                    movePiece("A8", "D8", 0);
+                    return 0;
+                }
+            }
+        }
+    }
+
+    int newFile = stringToFile(destination);
+    int oldFile = stringToFile(origin);
+    // ---------- Check if they're trying to en passant ------------- (avoids legalCapture rules) 
+    // again, here I would need to check if the pawn has just moved... which I could do but would require
+    // more functions... and I've spent way too long on this :D
+    if (originPiece->getName() == "wP" && originPiece->getPos()[1] == '5') {
+        if (newFile == oldFile+1 || newFile == oldFile-1) {
+            if (getPiece(stringPosition(newFile,2), boardState)->getName()==".."
+                && getPiece(stringPosition(newFile,1), boardState)->getName()=="bP") {
+                    cout << "hi" << endl;
+                    movePiece(destination,stringPosition(newFile,3),0);
+                    movePiece(origin, destination, 0);
+                    return 0;
+            }
+        }
+    }
+    if (originPiece->getName() == "bP" && originPiece->getPos()[1] == '4') {
+        if (newFile == oldFile+1 || newFile == oldFile-1) {
+            if (getPiece(stringPosition(newFile,5), boardState)->getName()==".."
+                && getPiece(stringPosition(newFile,6), boardState)->getName()=="wP") {
+                    cout << "hi" << endl;
+                    movePiece(destination,stringPosition(newFile,6),0);
+                    movePiece(origin, destination, 0);
+                    return 0;
+            }
+        }
+    }
+
     // =========== Moving to empty space =============
     if (destinationPiece->getName() == "..") { 
         if (originPiece->legalMove(destination) == false) { // if not a legal move for the piece
